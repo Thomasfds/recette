@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Ionic Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content *ngIf="recette">
+  <!-- Liste des boutons -->
+  <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" [disabled]="recette" (click)="changeRecette()">Recette</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" [disabled]="liste" (click)="changeListe()">Liste</ion-button>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+      <!-- /Listes des boutons -->
+
+    <ion-item>
+      <ion-label>Nom</ion-label>
+      <ion-input></ion-input>
+    </ion-item>
+
+    <img [src]="recipt.pictureUrl">
+
+    <ion-button expand="block" (click)="photo()"><ion-icon name="camera" size="large"></ion-icon></ion-button>
+    <ion-button expand="block" (click)="validate()">Valider</ion-button>
+
+  
+    <ion-button (click)="shareAll()">FACEBOOK</ion-button>
+</ion-content>
+
+<ion-content *ngIf="liste">
+  <!-- Liste des boutons -->
+  <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="block" [disabled]="recette" (click)="changeRecette()">Recette</ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button expand="block" [disabled]="liste" (click)="changeListe()">Liste</ion-button>
+        </ion-col>
+      </ion-row>
+  </ion-grid>
+      <!-- /Listes des boutons -->
+  
+   <!-- List of Text Items -->
+<ion-list *ngFor="let re of recipt">
+    <ion-item>
+      <ion-thumbnail slot="start">
+        <img [src]="re.pictureUrl">
+      </ion-thumbnail>
+      <ion-label>{{re.nom}}</ion-label>
+    </ion-item>
+  </ion-list>
+  
+      
+  
+  
+  </ion-content>
