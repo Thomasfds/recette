@@ -24,7 +24,7 @@
 
     <ion-item>
       <ion-label>Nom</ion-label>
-      <ion-input></ion-input>
+      <ion-input [(ngModel)]="recipt.nom"></ion-input>
     </ion-item>
 
     <img [src]="recipt.pictureUrl">
@@ -51,16 +51,29 @@
       <!-- /Listes des boutons -->
   
    <!-- List of Text Items -->
-<ion-list *ngFor="let re of recipt">
-    <ion-item>
-      <ion-thumbnail slot="start">
-        <img [src]="re.pictureUrl">
-      </ion-thumbnail>
-      <ion-label>{{re.nom}}</ion-label>
-    </ion-item>
+<ion-list *ngFor="let re of receipts; let i = index">
+ 
+    <ion-item-sliding>
+      <ion-item-options side="start">
+        <ion-item-option color="danger" (click)="itemDelete(i)">Delete</ion-item-option>
+      </ion-item-options>
+  
+      <ion-item>
+        <ion-thumbnail slot="start">
+            <img [src]="re.pictureUrl">
+          </ion-thumbnail>
+        <ion-label>{{re.nom}}</ion-label>
+      </ion-item>
+  
+      <ion-item-options side="end">
+        <ion-item-option (click)="shareAll()">Partage</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
   </ion-list>
   
-      
-  
-  
   </ion-content>
+
+<ion-content>
+
+</ion-content>

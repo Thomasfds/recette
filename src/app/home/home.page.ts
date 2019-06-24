@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { SocialSharing } from '@ionic-native/social-sharing/ngx';
-
-
+import { ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -17,28 +17,23 @@ export class HomePage {
     mediaType: this.camera.MediaType.PICTURE
   }
 
-  constructor(private camera: Camera, private socialSharing: SocialSharing) {}
+  constructor(
+    private camera: Camera, 
+    private socialSharing: SocialSharing,
+    public toastController: ToastController,
+    private storage: Storage
+    ) {}
  
   recette = true;
   liste = false;
 
-  recipt: any =[
+  recipt =
     {
-    nom: 'Test',
+    nom: '',
     pictureUrl:''
-  },
+  }
 
-  {
-  nom: 'Teste',
-  pictureUrl: ''
-  },
-
-  {
-    nom: 'Testee',
-    pictureUrl: ''
-  },
-
-  ]
+  receipts :any= [];
 
 
   changeRecette(){
@@ -51,12 +46,25 @@ export class HomePage {
     this.liste = true;
   }
 
+ngOnInit(){
+  this.storage.get('receipts').then(
+    (value:any) => {
+      if(!value){
+        this.receipts =[]
+      }else{
+        this.receipts = value;
+      }
+    }
+  )
+}
+
   photo(){
 
     this.camera.getPicture(this.options).then((imageData) => {
       
       let base64Image = 'data:image/jpeg;base64,' + imageData;
       this.recipt.pictureUrl = base64Image;
+      this.recipt.nom = "";
      }, (err) => {
      });
     }
@@ -67,16 +75,30 @@ export class HomePage {
       })
     }
 
-    validate(){
-      this.recipt.push(this.recipt)
+    async validate(){
+
+      this.receipts.push(this.recipt)
+      this.storage.set('receipts', this.receipts);
+      this.recipt.nom;
+      console.log(this.recipt.nom)
+      const toast = await this.toastController.create({
+        message: 'Photo upload',
+        duration: 2000
+      });
+      toast.present();
       this.reset();
     }
     
 reset(){
   this.recipt ={
-    name:'',
+    nom:'',
     pictureUrl:'',
   }
+}
+
+itemDelete(i:number){
+  this.receipts.splice(i, 1);
+  this.storage.set('receipts', this.receipts);
 }
 
 }
